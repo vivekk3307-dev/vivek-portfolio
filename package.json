@@ -4,6 +4,11 @@
   "description": "",
   "main": "backend/server.js",
   "scripts": {
+    "dev": "node scripts/dev.js",
+    "dev:server": "node --watch backend/server.js",
+    "dev:client": "vite --config frontend/vite.config.mjs --host 127.0.0.1",
+    "build": "vite build --config frontend/vite.config.mjs",
+    "preview": "vite preview --config frontend/vite.config.mjs",
     "start": "node backend/server.js",
     "test": "node --test"
   },
@@ -15,6 +20,12 @@
     "dotenv": "^16.4.7",
     "express": "^5.2.1",
     "mongodb": "^6.12.0",
-    "openai": "^4.77.0"
+    "openai": "^4.77.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.2",
+    "vite": "^8.3.3"
   }
 }
