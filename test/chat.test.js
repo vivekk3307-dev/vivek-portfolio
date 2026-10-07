@@ -47,7 +47,8 @@ test("reports service readiness without exposing secrets", async () => {
     assert.deepEqual(await response.json(), {
         status: "ok",
         openAIConfigured: false,
-        mongoConfigured: false
+        mongoConfigured: false,
+        contactMongoState: "disconnected"
     });
 });
 

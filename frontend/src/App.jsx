@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ChatWidget from "./components/ChatWidget.jsx";
 import { blogPosts, projects, skills } from "./data/portfolio.js";
 
@@ -10,6 +10,221 @@ const navigation = [
   ["blog", "Blog"],
   ["contact", "Contact"]
 ];
+
+const initialContactForm = {
+  fullName: "",
+  email: "",
+  phone: "",
+  company: "",
+  reason: "",
+  message: ""
+};
+
+async function submitContactForm(contactDetails) {
+  const response = await fetch("/api/contact", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: contactDetails.fullName,
+      email: contactDetails.email,
+      phone: contactDetails.phone,
+      company: contactDetails.company,
+      reason: contactDetails.reason,
+      message: contactDetails.message
+    })
+  });
+
+  let result;
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error("The server returned an unexpected response. Please try again.");
+  }
+
+  if (!response.ok) {
+    const errorMessage =
+      result.error || "We couldn't send your message. Please try again.";
+    throw new Error(
+      import.meta.env.DEV && result.details
+        ? `${errorMessage} (${result.details})`
+        : errorMessage
+    );
+  }
+
+  return result;
+}
+
+function ContactSection() {
+  const [formData, setFormData] = useState(initialContactForm);
+  const [submissionStatus, setSubmissionStatus] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const submissionLock = useRef(false);
+
+  function handleFieldChange(event) {
+    const { name, value } = event.target;
+    setFormData((current) => ({ ...current, [name]: value }));
+    setSubmissionStatus(null);
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    if (submissionLock.current) {
+      return;
+    }
+
+    const contactDetails = Object.fromEntries(
+      Object.entries(formData).map(([key, value]) => [key, value.trim()])
+    );
+
+    if (
+      !contactDetails.fullName ||
+      !contactDetails.email ||
+      !contactDetails.reason ||
+      !contactDetails.message
+    ) {
+      setSubmissionStatus({
+        type: "error",
+        message: "Please complete all required fields."
+      });
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactDetails.email)) {
+      setSubmissionStatus({
+        type: "error",
+        message: "Please enter a valid email address."
+      });
+      return;
+    }
+
+    submissionLock.current = true;
+    setIsSubmitting(true);
+    setSubmissionStatus(null);
+
+    try {
+      await submitContactForm(contactDetails);
+      setFormData(initialContactForm);
+      setSubmissionStatus({
+        type: "success",
+        message: "Message sent successfully! I'll get back to you soon."
+      });
+    } catch (error) {
+      setSubmissionStatus({
+        type: "error",
+        message:
+          error instanceof TypeError
+            ? "Unable to reach the server. Please check your connection and try again."
+            : error.message
+      });
+    } finally {
+      submissionLock.current = false;
+      setIsSubmitting(false);
+    }
+  }
+
+  return (
+    <section id="contact">
+      <p className="contact-eyebrow">📩 Contact Me</p>
+      <h2>Let's Connect</h2>
+      <div className="contact-container">
+        <p className="contact-description">
+          Have a project, internship opportunity, job opportunity, or just want
+          to say hello? Fill out the form below and I'll get back to you.
+        </p>
+        <form className="contact-form" onSubmit={handleSubmit} noValidate>
+          <div className="contact-fields">
+            <div className="contact-field">
+              <label htmlFor="contact-full-name">Full Name <span>*</span></label>
+              <input
+                autoComplete="name"
+                id="contact-full-name"
+                name="fullName"
+                onChange={handleFieldChange}
+                required
+                type="text"
+                value={formData.fullName}
+              />
+            </div>
+            <div className="contact-field">
+              <label htmlFor="contact-email">Email Address <span>*</span></label>
+              <input
+                autoComplete="email"
+                id="contact-email"
+                name="email"
+                onChange={handleFieldChange}
+                required
+                type="email"
+                value={formData.email}
+              />
+            </div>
+            <div className="contact-field">
+              <label htmlFor="contact-phone">Phone Number <small>(Optional)</small></label>
+              <input
+                autoComplete="tel"
+                id="contact-phone"
+                name="phone"
+                onChange={handleFieldChange}
+                type="tel"
+                value={formData.phone}
+              />
+            </div>
+            <div className="contact-field">
+              <label htmlFor="contact-company">Company / Organization <small>(Optional)</small></label>
+              <input
+                autoComplete="organization"
+                id="contact-company"
+                name="company"
+                onChange={handleFieldChange}
+                type="text"
+                value={formData.company}
+              />
+            </div>
+            <div className="contact-field contact-field-full">
+              <label htmlFor="contact-reason">Reason for Contact <span>*</span></label>
+              <select
+                id="contact-reason"
+                name="reason"
+                onChange={handleFieldChange}
+                required
+                value={formData.reason}
+              >
+                <option disabled value="">Select a reason</option>
+                <option value="Job Opportunity">💼 Job Opportunity</option>
+                <option value="Freelance / Project">💻 Freelance / Project</option>
+                <option value="Internship">🎓 Internship</option>
+                <option value="Collaboration">🤝 Collaboration</option>
+                <option value="Other">💬 Other</option>
+              </select>
+            </div>
+            <div className="contact-field contact-field-full">
+              <label htmlFor="contact-message">Your Message <span>*</span></label>
+              <textarea
+                id="contact-message"
+                name="message"
+                onChange={handleFieldChange}
+                required
+                rows="6"
+                value={formData.message}
+              />
+            </div>
+          </div>
+          {submissionStatus && (
+            <p
+              className={`contact-status ${submissionStatus.type}`}
+              role={submissionStatus.type === "error" ? "alert" : "status"}
+              aria-live="polite"
+            >
+              {submissionStatus.message}
+            </p>
+          )}
+          <button className="contact-submit" disabled={isSubmitting} type="submit">
+            {isSubmitting ? "Sending..." : "Send Message →"}
+          </button>
+        </form>
+      </div>
+    </section>
+  );
+}
 
 function App() {
   const [lightMode, setLightMode] = useState(false);
@@ -199,32 +414,7 @@ function App() {
           </div>
         </section>
 
-        <section id="contact">
-          <h2>Let's Connect</h2>
-          <div className="contact-container">
-            <p>
-              I'm always interested in learning, building projects and
-              connecting with other developers.
-            </p>
-            <div className="contact-links">
-              <a
-                href="https://github.com/vivekk3307-dev"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GitHub
-              </a>
-              <a
-                href="https://www.linkedin.com/in/vivek-chaurasiya-069226304"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn
-              </a>
-              <a href="mailto:Vivekchaurasiya1212@gmail.com">Email</a>
-            </div>
-          </div>
-        </section>
+        <ContactSection />
       </main>
 
       <footer>
