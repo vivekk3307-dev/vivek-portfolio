@@ -2051,6 +2051,36 @@ body.light-mode .project-card strong {
     line-height: 1.65;
 }
 
+.chat-faq-list {
+    display: grid;
+    gap: 7px;
+    margin-bottom: 13px;
+}
+
+.chat-faq-button {
+    padding: 8px 10px;
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: 10px;
+    background: rgba(124, 58, 237, 0.09);
+    color: #ded6f5;
+    font: inherit;
+    font-size: 11px;
+    line-height: 1.4;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.chat-faq-button:hover:not(:disabled) {
+    border-color: rgba(167, 139, 250, 0.48);
+    background: rgba(124, 58, 237, 0.2);
+}
+
+.chat-faq-button:disabled {
+    cursor: wait;
+    opacity: 0.6;
+}
+
 .chat-welcome small {
     display: block;
     padding-top: 10px;

@@ -2,6 +2,49 @@ import { useEffect, useRef, useState } from "react";
 
 const chatSessionStorageKey = "devspace-vky-session";
 
+const predefinedQuestions = [
+  {
+    question: "Who is Vivek?",
+    answer:
+      "Vivek Chaurasiya is an MCA student and aspiring web developer who enjoys building modern, user-focused web applications."
+  },
+  {
+    question: "What technologies does he use?",
+    answer:
+      "His toolkit includes HTML, CSS, JavaScript, Node.js, Express.js, React, Git, and AI."
+  },
+  {
+    question: "What projects has he built?",
+    answer:
+      "His portfolio features DevSpace, a Task Manager, and a Study Tracker."
+  },
+  {
+    question: "What is DevSpace built with?",
+    answer:
+      "DevSpace is Vivek's personal portfolio, built with HTML, CSS, JavaScript, Node.js, and Express."
+  },
+  {
+    question: "Is Vivek open to opportunities?",
+    answer:
+      "Yes. Vivek is open to internship opportunities. Use the contact form on this portfolio to reach out."
+  },
+  {
+    question: "What is Vivek learning?",
+    answer:
+      "He is developing his skills in JavaScript, Node.js, Express, and modern web technologies while exploring AI."
+  },
+  {
+    question: "How can I contact Vivek?",
+    answer:
+      "Use the contact form in the Let's Connect section of this portfolio to send him a message."
+  },
+  {
+    question: "Can I view Vivek's resume?",
+    answer:
+      "Yes. Select Download Resume in the hero section near the top of the portfolio."
+  }
+];
+
 function createChatSessionId() {
   return crypto.randomUUID();
 }
@@ -115,6 +158,23 @@ function ChatWidget() {
     inputRef.current?.focus();
   }
 
+  async function handlePredefinedQuestion({ question, answer }) {
+    if (isLoading) {
+      return;
+    }
+
+    if (!historyLoadedRef.current) {
+      await loadHistory();
+      historyLoadedRef.current = true;
+    }
+
+    setMessages((current) => [
+      ...current,
+      { role: "user", content: question },
+      { role: "assistant", content: answer }
+    ]);
+  }
+
   function openChat() {
     setIsVisible(true);
     window.requestAnimationFrame(() => setIsOpen(true));
@@ -220,8 +280,21 @@ function ChatWidget() {
                 I’m Vivek’s AI assistant. Ask me about his skills, projects, or
                 what he’s learning.
               </p>
+              <div className="chat-faq-list" aria-label="Predefined questions">
+                {predefinedQuestions.map((item) => (
+                  <button
+                    className="chat-faq-button"
+                    key={item.question}
+                    type="button"
+                    disabled={isLoading}
+                    onClick={() => handlePredefinedQuestion(item)}
+                  >
+                    {item.question}
+                  </button>
+                ))}
+              </div>
               <small>
-                I’m an AI, not Vivek himself. Messages are saved to MongoDB.
+                I’m an AI, not Vivek himself. AI chat messages are saved to MongoDB.
               </small>
             </div>
           )}
