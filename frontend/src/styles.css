@@ -18,6 +18,7 @@
   --accent: #b6f36b;
   --accent-ink: #b6f36b;
   --violet: #8b7cff;
+  --danger: #ff8585;
   --border: rgba(255, 255, 255, 0.09);
   --border-strong: rgba(255, 255, 255, 0.16);
   --shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
@@ -43,29 +44,40 @@ body {
     radial-gradient(ellipse at 86% 6%, rgba(139, 124, 255, 0.055), transparent 30rem),
     var(--background);
   color: var(--text);
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.65;
   transition: background-color 240ms ease, color 240ms ease;
 }
 
 body.light-mode {
   color-scheme: light;
-  --background: #f5f6f2;
-  --surface: #eceee9;
+  --background: #f2f5ef;
+  --surface: #e7ece5;
   --card: #ffffff;
-  --raised: #f1f3ed;
-  --text: #17191c;
-  --muted: #5b6068;
-  --subtle: #747a82;
-  --accent: #b6f36b;
-  --accent-ink: #4b701d;
-  --violet: #6558cb;
-  --border: rgba(20, 24, 28, 0.11);
-  --border-strong: rgba(20, 24, 28, 0.2);
-  --shadow: 0 24px 70px rgba(32, 38, 29, 0.1);
+  --raised: #f7f9f5;
+  --text: #1d2821;
+  --muted: #526056;
+  --subtle: #6b776e;
+  --accent: #a7d16b;
+  --accent-ink: #426b28;
+  --violet: #7061c8;
+  --danger: #b42318;
+  --border: rgba(37, 54, 42, 0.13);
+  --border-strong: rgba(37, 54, 42, 0.22);
+  --shadow: 0 22px 58px rgba(34, 49, 38, 0.11);
   background:
-    radial-gradient(ellipse at 86% 6%, rgba(101, 88, 203, 0.07), transparent 30rem),
+    radial-gradient(ellipse at 86% 6%, rgba(112, 97, 200, 0.09), transparent 30rem),
+    radial-gradient(ellipse at 9% 40%, rgba(134, 184, 96, 0.1), transparent 32rem),
     var(--background);
+}
+
+body.light-mode .technology-card,
+body.light-mode .blog-card {
+  box-shadow: 0 7px 22px rgba(34, 49, 38, 0.045);
+}
+
+body.light-mode .project-card {
+  box-shadow: 0 9px 28px rgba(34, 49, 38, 0.055);
 }
 
 button,
@@ -156,13 +168,13 @@ textarea:focus-visible {
   border: 1px solid var(--border-strong);
   border-radius: 9px;
   color: var(--accent-ink);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: -0.06em;
 }
 
 .brand-name {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.01em;
 }
@@ -195,7 +207,7 @@ textarea:focus-visible {
   min-height: 42px;
   align-items: center;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   transition: color 160ms ease;
 }
 
@@ -235,7 +247,7 @@ textarea:focus-visible {
   gap: 8px;
   border: 1px solid var(--border-strong);
   border-radius: 6px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 650;
   white-space: nowrap;
 }
@@ -313,7 +325,7 @@ footer {
 .timeline-type,
 .project-visual-index {
   color: var(--accent-ink);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 750;
   letter-spacing: 0.15em;
   line-height: 1.5;
@@ -371,14 +383,14 @@ footer {
   align-items: center;
   gap: 10px;
   color: var(--accent-ink);
-  font-size: clamp(14px, 1.7vw, 18px);
+  font-size: clamp(15px, 1.8vw, 19px);
   font-weight: 600;
   letter-spacing: -0.025em;
 }
 
 .hero-role span {
   color: var(--subtle);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
 }
 
@@ -386,7 +398,7 @@ footer {
   max-width: 490px;
   margin: 18px 0 0;
   color: var(--muted);
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.8;
 }
 
@@ -406,7 +418,7 @@ footer {
   gap: 20px;
   border: 1px solid var(--border-strong);
   border-radius: 5px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   transition:
     background 160ms ease,
@@ -445,7 +457,7 @@ footer > a:not(.footer-brand) {
   align-items: center;
   gap: 8px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   transition: color 160ms ease;
 }
 
@@ -488,27 +500,35 @@ footer > a:not(.footer-brand):hover {
 
 .hero-visual-label {
   position: absolute;
-  top: 5%;
-  right: 1%;
-  display: grid;
-  gap: 8px;
+  z-index: 2;
+  top: 0;
+  left: 50%;
+  display: flex;
+  transform: translateX(-50%);
+  align-items: center;
   color: var(--subtle);
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.18em;
+  white-space: nowrap;
+}
+
+.hero-visual-label span + span::before {
+  margin: 0 12px;
+  color: var(--violet);
+  content: "/";
 }
 
 .profile-container {
   position: relative;
   z-index: 1;
   width: min(76%, 340px);
-  aspect-ratio: 0.84;
+  aspect-ratio: 1;
   overflow: hidden;
   border: 1px solid var(--border-strong);
-  border-radius: 12px;
+  border-radius: 50%;
   background: var(--card);
   box-shadow: var(--shadow);
-  transform: rotate(2deg);
 }
 
 .profile-container::after {
@@ -547,18 +567,19 @@ footer > a:not(.footer-brand):hover {
 
 .hero-tech-note {
   position: absolute;
-  right: 0;
-  bottom: 5%;
+  bottom: 0;
+  left: 50%;
   display: flex;
   min-height: 38px;
   padding: 0 12px;
   align-items: center;
   gap: 8px;
+  transform: translateX(-50%);
   border: 1px solid var(--border);
   border-radius: 4px;
   background: var(--surface);
   color: var(--muted);
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.1em;
 }
@@ -591,7 +612,7 @@ footer > a:not(.footer-brand):hover {
 #contact > h2 {
   max-width: 760px;
   margin: 0;
-  font-size: clamp(34px, 5vw, 56px);
+  font-size: clamp(36px, 5vw, 60px);
   font-weight: 560;
   letter-spacing: -0.055em;
   line-height: 1.12;
@@ -613,7 +634,7 @@ footer > a:not(.footer-brand):hover {
   max-width: 300px;
   margin: 0 0 5px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .about-container {
@@ -627,7 +648,7 @@ footer > a:not(.footer-brand):hover {
   max-width: 430px;
   margin: 0;
   color: var(--text);
-  font-size: clamp(21px, 2.9vw, 30px);
+  font-size: clamp(23px, 3vw, 32px);
   font-weight: 450;
   letter-spacing: -0.035em;
   line-height: 1.38;
@@ -636,7 +657,7 @@ footer > a:not(.footer-brand):hover {
 .about-copy {
   max-width: 520px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .about-copy p {
@@ -678,14 +699,14 @@ footer > a:not(.footer-brand):hover {
 
 .technology-card-heading > span {
   color: var(--accent-ink);
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 750;
   letter-spacing: 0.12em;
 }
 
 .technology-card h3 {
   margin: 0;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.02em;
 }
@@ -711,7 +732,7 @@ footer > a:not(.footer-brand):hover {
   border: 1px solid var(--border);
   border-radius: 3px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1.2;
 }
 
@@ -828,7 +849,7 @@ footer > a:not(.footer-brand):hover {
 
 .project-card h3 {
   margin: 0;
-  font-size: clamp(19px, 2.3vw, 25px);
+  font-size: clamp(21px, 2.4vw, 27px);
   font-weight: 570;
   letter-spacing: -0.04em;
   line-height: 1.25;
@@ -838,7 +859,7 @@ footer > a:not(.footer-brand):hover {
 .project-card-content > p:not(.project-label) {
   margin: 12px 0 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.7;
 }
 
@@ -849,7 +870,7 @@ footer > a:not(.footer-brand):hover {
 .project-technologies li {
   min-height: 23px;
   padding: 3px 7px;
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .project-links {
@@ -862,7 +883,7 @@ footer > a:not(.footer-brand):hover {
 
 .project-links a {
   color: var(--accent-ink);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 650;
 }
 
@@ -884,7 +905,7 @@ footer > a:not(.footer-brand):hover {
   align-items: center;
   gap: 9px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -902,12 +923,12 @@ footer > a:not(.footer-brand):hover {
 .timeline-type {
   margin: 0 0 7px;
   color: var(--subtle);
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .timeline-content h3 {
   margin: 0;
-  font-size: clamp(19px, 2.5vw, 26px);
+  font-size: clamp(21px, 2.6vw, 28px);
   font-weight: 560;
   letter-spacing: -0.035em;
   line-height: 1.3;
@@ -917,13 +938,13 @@ footer > a:not(.footer-brand):hover {
   display: inline-block;
   margin-top: 4px;
   color: var(--accent-ink);
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .timeline-content > p:not(.timeline-type) {
   margin: 10px 0 14px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .timeline-tags {
@@ -954,14 +975,14 @@ footer > a:not(.footer-brand):hover {
 .blog-card-index {
   margin: 0 0 24px;
   color: var(--accent-ink);
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.12em;
 }
 
 .blog-card h3 {
   margin: 0;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 570;
   letter-spacing: -0.03em;
 }
@@ -969,7 +990,7 @@ footer > a:not(.footer-brand):hover {
 .blog-card > p:last-child {
   margin: 10px 0 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.7;
 }
 
@@ -995,7 +1016,7 @@ footer > a:not(.footer-brand):hover {
   max-width: 310px;
   margin: 0;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .contact-links {
@@ -1031,7 +1052,7 @@ footer > a:not(.footer-brand):hover {
 
 .contact-field label {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
 }
 
@@ -1041,7 +1062,7 @@ footer > a:not(.footer-brand):hover {
 
 .contact-field label small {
   color: var(--subtle);
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 400;
 }
 
@@ -1054,7 +1075,7 @@ footer > a:not(.footer-brand):hover {
   border-radius: 4px;
   background: var(--surface);
   color: var(--text);
-  font-size: 12px;
+  font-size: 14px;
   transition: border-color 160ms ease, background 160ms ease;
 }
 
@@ -1092,7 +1113,7 @@ footer > a:not(.footer-brand):hover {
 
 .contact-status {
   margin: 14px 0 0;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .contact-status.success {
@@ -1100,7 +1121,7 @@ footer > a:not(.footer-brand):hover {
 }
 
 .contact-status.error {
-  color: #ff8585;
+  color: var(--danger);
 }
 
 .contact-submit {
@@ -1115,7 +1136,7 @@ footer > a:not(.footer-brand):hover {
   border-radius: 4px;
   background: var(--accent);
   color: #11150d;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 750;
   cursor: pointer;
   transition: transform 160ms ease, filter 160ms ease, opacity 160ms ease;
@@ -1143,7 +1164,7 @@ footer {
 }
 
 .footer-brand {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
 }
 
@@ -1151,11 +1172,11 @@ footer p,
 footer small {
   margin: 0;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 footer > a:not(.footer-brand) {
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .visually-hidden {
@@ -1199,7 +1220,7 @@ footer > a:not(.footer-brand) {
   background: var(--card);
   color: var(--text);
   box-shadow: var(--shadow);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   transition: transform 180ms ease, border-color 180ms ease;
@@ -1212,7 +1233,7 @@ footer > a:not(.footer-brand) {
 
 .chat-launcher-icon {
   color: var(--accent-ink);
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .chat-launcher-dot,
@@ -1288,7 +1309,7 @@ footer > a:not(.footer-brand) {
 
 .chat-brand h2 {
   margin: 0;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
 }
 
@@ -1298,7 +1319,7 @@ footer > a:not(.footer-brand) {
   align-items: center;
   gap: 6px;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .chat-online-dot {
@@ -1337,7 +1358,7 @@ footer > a:not(.footer-brand) {
 .chat-faq-section h3 {
   margin: 0 0 8px;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1359,7 +1380,7 @@ footer > a:not(.footer-brand) {
   border-radius: 3px;
   background: transparent;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 10px;
   text-align: left;
   cursor: pointer;
   transition: color 140ms ease, border-color 140ms ease, background 140ms ease;
@@ -1407,14 +1428,14 @@ footer > a:not(.footer-brand) {
   max-width: 250px;
   margin: 0;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .chat-welcome small {
   max-width: 255px;
   margin-top: 13px;
   color: var(--subtle);
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .chat-message {
@@ -1426,7 +1447,7 @@ footer > a:not(.footer-brand) {
   border-radius: 7px 7px 7px 2px;
   background: var(--surface);
   color: var(--text);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.55;
   overflow-wrap: anywhere;
   white-space: pre-wrap;
@@ -1472,11 +1493,11 @@ footer > a:not(.footer-brand) {
 .chat-status {
   margin: 8px 0 0;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .chat-status.is-error {
-  color: #ff8585;
+  color: var(--danger);
 }
 
 .chat-form {
@@ -1498,7 +1519,7 @@ footer > a:not(.footer-brand) {
   outline: 0;
   background: transparent;
   color: var(--text);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .chat-form input:focus-visible {
@@ -1534,8 +1555,17 @@ footer > a:not(.footer-brand) {
   margin: 0;
   padding: 7px 12px 9px;
   color: var(--subtle);
-  font-size: 8px;
+  font-size: 9px;
   text-align: center;
+}
+
+body.light-mode .chat-message.is-user {
+  border-color: color-mix(in srgb, var(--accent-ink) 32%, transparent);
+  background: color-mix(in srgb, var(--accent) 20%, var(--surface));
+}
+
+body.light-mode .chat-launcher {
+  border-color: color-mix(in srgb, var(--accent-ink) 45%, transparent);
 }
 
 @media (max-width: 980px) {
@@ -1552,7 +1582,7 @@ footer > a:not(.footer-brand) {
   }
 
   .nav-links a {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .hero,
@@ -1683,7 +1713,7 @@ footer > a:not(.footer-brand) {
   }
 
   .hero-summary {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .technology-groups {
@@ -1729,7 +1759,7 @@ footer > a:not(.footer-brand) {
 
   .hero-kicker {
     margin-bottom: 24px;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .hero h1 {
@@ -1755,7 +1785,7 @@ footer > a:not(.footer-brand) {
     min-height: 45px;
     padding: 0 13px;
     gap: 12px;
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .hero-socials {
@@ -1763,25 +1793,25 @@ footer > a:not(.footer-brand) {
   }
 
   .hero-visual {
-    min-height: 280px;
+    min-height: 300px;
     margin: 0 10px;
   }
 
   .profile-container {
-    width: min(64%, 250px);
-    aspect-ratio: 0.9;
+    width: min(64%, 220px);
   }
 
   .hero-visual-label {
-    top: 4%;
-    right: 3%;
+    top: 0;
+    right: auto;
+    left: 50%;
   }
 
   .hero-tech-note {
-    right: 0;
     bottom: 0;
+    left: 50%;
     min-height: 34px;
-    font-size: 7px;
+    font-size: 8px;
   }
 
   .content-section,
@@ -1796,7 +1826,7 @@ footer > a:not(.footer-brand) {
 
   .section-heading h2,
   #contact > h2 {
-    font-size: clamp(32px, 8vw, 43px);
+    font-size: clamp(34px, 8vw, 46px);
   }
 
   .section-heading-row {
@@ -1815,7 +1845,7 @@ footer > a:not(.footer-brand) {
   }
 
   .about-lead {
-    font-size: 23px;
+    font-size: 25px;
   }
 
   .technology-groups {
@@ -1978,7 +2008,7 @@ footer > a:not(.footer-brand) {
   }
 
   .brand-name {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .hero h1 {
@@ -2005,7 +2035,7 @@ footer > a:not(.footer-brand) {
 
   .chat-launcher {
     min-height: 45px;
-    font-size: 10px;
+    font-size: 11px;
   }
 }
 
