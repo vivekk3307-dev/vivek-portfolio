@@ -6,37 +6,32 @@ const predefinedQuestions = [
   {
     question: "Who is Vivek?",
     answer:
-      "Vivek Chaurasiya is an MCA student and aspiring web developer who enjoys building modern, user-focused web applications."
+      "Vivek Chaurasiya is an MCA student and developer interested in building useful web products and exploring AI."
   },
   {
     question: "What technologies does he use?",
     answer:
-      "His toolkit includes HTML, CSS, JavaScript, Node.js, Express.js, React, Git, and AI."
+      "His toolkit includes HTML, CSS, JavaScript, React, Node.js, Express.js, MongoDB, SQL, Git, GitHub, and VS Code. He is also exploring generative AI, AI-assisted development, and prompt engineering."
   },
   {
     question: "What projects has he built?",
     answer:
-      "His portfolio features DevSpace, a Task Manager, and a Study Tracker."
-  },
-  {
-    question: "What is DevSpace built with?",
-    answer:
-      "DevSpace is Vivek's personal portfolio, built with HTML, CSS, JavaScript, Node.js, and Express."
+      "His portfolio features Personal Developer Portfolio, Chaurasiya Pooja Samagri, SkillGap, Task Manager, and Study Tracker. The portfolio links to available project details."
   },
   {
     question: "Is Vivek open to opportunities?",
     answer:
-      "Yes. Vivek is open to internship opportunities. Use the contact form on this portfolio to reach out."
+      "Vivek is currently a frontend development intern at Alphawizz Technologies, working with React. Use the contact form to reach out about opportunities."
   },
   {
     question: "What is Vivek learning?",
     answer:
-      "He is developing his skills in JavaScript, Node.js, Express, and modern web technologies while exploring AI."
+      "He is continuing to grow through hands-on software projects and his React frontend internship, while exploring AI and generative AI."
   },
   {
     question: "How can I contact Vivek?",
     answer:
-      "Use the contact form in the Let's Connect section of this portfolio to send him a message."
+      "Use the contact form in the Contact section of this portfolio to send him a message."
   },
   {
     question: "Can I view Vivek's resume?",
@@ -64,7 +59,9 @@ async function readResponse(response) {
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
-    throw new Error(data.error || "VKY could not reply. Please try again.");
+    throw new Error(
+      data.error || "Chat is temporarily unavailable. Please try again shortly."
+    );
   }
 
   return data;
@@ -264,6 +261,23 @@ function ChatWidget() {
           </div>
         </header>
 
+        <section className="chat-faq-section" aria-label="Predefined questions">
+          <h3>Quick questions</h3>
+          <div className="chat-faq-list">
+            {predefinedQuestions.map((item) => (
+              <button
+                className="chat-faq-button"
+                key={item.question}
+                type="button"
+                disabled={isLoading}
+                onClick={() => handlePredefinedQuestion(item)}
+              >
+                {item.question}
+              </button>
+            ))}
+          </div>
+        </section>
+
         <div
           ref={messagesRef}
           className="chat-messages"
@@ -280,19 +294,6 @@ function ChatWidget() {
                 I’m Vivek’s AI assistant. Ask me about his skills, projects, or
                 what he’s learning.
               </p>
-              <div className="chat-faq-list" aria-label="Predefined questions">
-                {predefinedQuestions.map((item) => (
-                  <button
-                    className="chat-faq-button"
-                    key={item.question}
-                    type="button"
-                    disabled={isLoading}
-                    onClick={() => handlePredefinedQuestion(item)}
-                  >
-                    {item.question}
-                  </button>
-                ))}
-              </div>
               <small>
                 I’m an AI, not Vivek himself. AI chat messages are saved to MongoDB.
               </small>

@@ -66,7 +66,7 @@ test("rejects invalid chat requests before calling external services", async () 
     assert.match((await response.json()).error, /session ID is invalid/);
 });
 
-test("explains when VKY credentials have not been configured", async () => {
+test("returns a user-friendly error when chat is unavailable", async () => {
     const response = await fetch(`${baseUrl}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -77,5 +77,8 @@ test("explains when VKY credentials have not been configured", async () => {
     });
 
     assert.equal(response.status, 503);
-    assert.match((await response.json()).error, /not configured/);
+    assert.equal(
+        (await response.json()).error,
+        "Chat is temporarily unavailable. Please try again shortly."
+    );
 });

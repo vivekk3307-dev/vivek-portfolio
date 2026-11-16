@@ -38,8 +38,7 @@ function createChatRouter() {
     } catch (error) {
       console.error("Unable to load chat history:", error.message);
       return response.status(503).json({
-        error:
-          "Chat history is unavailable. Check the MongoDB configuration and connection."
+        error: "Chat history is temporarily unavailable."
       });
     }
   });
@@ -65,8 +64,7 @@ function createChatRouter() {
     } catch (error) {
       console.error("VKY configuration is incomplete:", error.message);
       return response.status(503).json({
-        error:
-          "VKY is not configured yet. Set the OpenAI API key and MongoDB connection in the server environment."
+        error: "Chat is temporarily unavailable. Please try again shortly."
       });
     }
 
@@ -81,14 +79,13 @@ function createChatRouter() {
       if (error.message === "OpenAI returned an empty response for VKY.") {
         console.error(error.message);
         return response.status(502).json({
-          error: "VKY could not create a reply. Please try again."
+          error: "Chat is temporarily unavailable. Please try again shortly."
         });
       }
 
       console.error("VKY could not complete the chat request:", error.message);
       return response.status(502).json({
-        error:
-          "VKY could not reply right now. Check the API and database connections, then try again."
+        error: "Chat is temporarily unavailable. Please try again shortly."
       });
     }
   });

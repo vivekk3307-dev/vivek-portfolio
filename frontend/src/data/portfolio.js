@@ -1,29 +1,57 @@
-export const skills = [
-  "HTML",
-  "CSS",
-  "JavaScript",
-  "Node.js",
-  "Express.js",
-  "Git & GitHub",
-  "React",
-  "AI"
+export const technologyGroups = [
+  {
+    name: "Frontend",
+    technologies: ["HTML", "CSS", "JavaScript", "React"]
+  },
+  {
+    name: "Backend",
+    technologies: ["Node.js", "Express.js"]
+  },
+  {
+    name: "Data",
+    technologies: ["MongoDB", "SQL"]
+  },
+  {
+    name: "Tools",
+    technologies: ["Git", "GitHub", "VS Code"]
+  },
+  {
+    name: "AI & Emerging",
+    technologies: [
+      "Generative AI",
+      "AI-assisted development",
+      "Prompt Engineering"
+    ]
+  }
 ];
+
+export const skills = technologyGroups.flatMap(({ technologies }) => technologies);
 
 export const projects = [
   {
-    title: "DevSpace Portfolio",
-    description: "My personal portfolio website.",
-    technology: "HTML, CSS, JavaScript, Node.js, Express"
+    title: "Personal Developer Portfolio",
+    description:
+      "A portfolio to share my projects, skills, and progress as a developer.",
+    technologies: ["React", "JavaScript", "CSS", "Express.js", "MongoDB"],
+    githubUrl: "https://github.com/vivekk3307-dev/vivek-portfolio"
+  },
+  {
+    title: "Chaurasiya Pooja Samagri",
+    technologies: []
+  },
+  {
+    title: "SkillGap",
+    technologies: []
   },
   {
     title: "Task Manager",
     description: "A simple application to manage daily tasks.",
-    technology: "HTML, CSS, JavaScript"
+    technologies: ["HTML", "CSS", "JavaScript"]
   },
   {
     title: "Study Tracker",
     description: "Track study sessions and learning progress.",
-    technology: "JavaScript, Node.js, Express"
+    technologies: ["JavaScript", "Node.js", "Express.js"]
   }
 ];
 
